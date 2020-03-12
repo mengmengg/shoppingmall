@@ -82,43 +82,30 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       ,
       app.get("/api/getcomments/:id/:pageindex", (req, res) => {
         var comment=appData.comment;
-/*
-        var id=req.params.id;
-        var pageindex=req.params.pageindex;
-        var comment=appData.comment;
-        var commentList=new Array();
-
-        for (let i = 0; i <comment.length ; i++) {
-          if (id==comment[i].artid&&comment[i].type==1){//资讯的评论id+是评论的资讯还是精选好物
-            commentList.push(comment[i]);
-          }
-
-        }
-        // 分页-1
-        var newPage = pageindex - 1;
-
-
-// 查询数据的总量 页数 和数据量相乘  (当前 页数乘以当前条数)=总数量
-        var newNumber = newPage * 2;
-        var count=commentList.length;
-
-
-// 如果查询的数据量 大于总数据量
-// 当查询的数据大于剩余的数据量的时候 
-//数据的总数量 对查询的当前条数取余数  然后总数量减去这个余数当做当前的要查询的页数
-        if (newNumber > count) {
-          return count - parseInt(count % pageindex);
-        }
-        for (var j=newNumber;)*/
-
         res.json({
 
           data:appData.comment
 
         });
-      })
+      }) ,
+        app.get("/api/livebro", (req, res) => {
+          var livero=appData.livero;
+          res.json({
 
-    }
+            data:appData.livero
+
+          });
+        })
+,
+    app.get("/api/commodityList", (req, res) => {
+      res.json({
+
+        data:appData.commodity
+
+      });
+    })
+
+  }
   },
   plugins: [
     new webpack.DefinePlugin({

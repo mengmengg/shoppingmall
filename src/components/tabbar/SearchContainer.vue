@@ -1,7 +1,8 @@
 <!--搜索-->
 <template>
   <div>
-    <h3>SearchContainer</h3>
+    <h3>搜索</h3>
+
   </div>
 </template>
 

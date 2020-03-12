@@ -5,7 +5,7 @@
     <!-- 九宫格 到 6宫格 的改造工程 -->
     <ul class="mui-table-view mui-grid-view mui-grid-9">
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-        <router-link to="/home/newslist">
+        <router-link to="/search/newslist">
           <img src="../../assets/menu1.png" alt="">
           <div class="mui-media-body">测评资讯</div>
         </router-link>
@@ -27,10 +27,10 @@
         <img src="../../assets/menu4.png" alt="">
         <div class="mui-media-body">留言反馈</div>
       </router-link></li>
-      <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+      <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><router-link to="/home/livebro">
         <img src="../../assets/menu5.png" alt="">
         <div class="mui-media-body">直播专区</div>
-      </a></li>
+      </router-link></li>
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><router-link to="/home/contactus">
         <img src="../../assets/menu6.png" alt="">
         <div class="mui-media-body">联系我们</div>

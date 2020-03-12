@@ -62,7 +62,7 @@
  + 如果调用 getComments 方法重新刷新评论列表的话，可能只能得到 最后一页的评论，前几页的评论获取不到
  + 换一种思路： 当评论成功后，在客户端，手动拼接出一个 最新的评论对象，然后 调用 数组的 unshift 方法， 把最新的评论，追加到  data 中 comments 的开头；这样，就能 完美实现刷新评论列表的需求；
 
-### 制作顶部滑动条的坑们：
+## 制作顶部滑动条的坑们：
  1. 需要借助于 MUI 中的 tab-top-webview-main.html 
  2. 需要把 slider 区域的 mui-fullscreen 类去掉
  3. 滑动条无法正常触发滑动，通过检查官方文档，发现这是JS组件，需要被初始化一下：
@@ -81,13 +81,26 @@
  6. 当 滑动条 调试OK后，发现， tabbar 无法正常工作了，这时候，我们需要把 每个 tabbar 按钮的 样式中  `mui-tab-item` 重新改一下名字；
  7. 获取所有分类，并渲染 分类列表；
 
-## 绘制 商品列表 页面基本结构并美化
-##联系我们
+
+## 联系我们
  1. 使用阿里巴巴矢量图标库
  2. 使用mui画布局
  3. 使用mint-ui弹出框做点击弹出功能
-##留言反馈
-使用mui ipnut (表单)+button（按钮）画布局，因为没有连接数据库，就没有提交
+## 留言反馈
+1. 使用mui ipnut (表单)+button（按钮）画布局，因为没有连接数据库，就没有提交
+## 直播 视频播放
+1. 安装 cnpm install vue-video-player -S
+2. 在main.Js中导入并挂载到vue中
+ + import 'video.js/dist/video-js.css'
+ + import 'vue-video-player/src/custom-theme.css'
+ + import 'videojs-contrib-hls'
+ + import {videoPlayer} from 'vue-video-player'
+ 3. 创建video子组件
+## 会员页面
+1. 创建登录注册页面
+2. 会员页面：全部，待付款，待发货，待收货
+
+
 ## 尝试在手机上 去进行项目的预览和测试
 1. 要保证自己的手机可以正常运行；
 2. 要保证 手机 和 开发项目的电脑 处于同一个 WIFI 环境中，也就是说 手机 可以 访问到 电脑的 IP

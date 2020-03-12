@@ -46,6 +46,14 @@ import 'mint-ui/lib/style.css'
 // 安装 图片预览插件
 import VuePreview from 'vue-preview'
 Vue.use(VuePreview)
+//安装视频插件
+//main.js
+
+import 'video.js/dist/video-js.css'
+import 'vue-video-player/src/custom-theme.css'
+import 'videojs-contrib-hls'
+
+import {videoPlayer} from 'vue-video-player'
 
 
 // 1.3 导入自己的 router.js 路由模块
@@ -58,5 +66,6 @@ import app from './App.vue'
 var vm = new Vue({
   el: '#app',
   render: c => c(app),
-  router // 1.4 挂载路由对象到 VM 实例上
+  router,// 1.4 挂载路由对象到 VM 实例上
+  videoPlayer
 })

@@ -7,7 +7,7 @@
     </div>
   <ul class="mui-table-view">
     <li class="mui-table-view-cell mui-media" v-for="i in newslist" :key="i.nid">
-      <router-link :to="'/home/newslnfo/'+i.nid" >
+      <router-link :to="'/search/newslnfo/'+i.nid" >
         <img class="mui-media-object mui-pull-left" :src=i.img_url>
         <div class="mui-media-body">
           {{i.title}}
