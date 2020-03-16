@@ -5,7 +5,7 @@
     <!-- 九宫格 到 6宫格 的改造工程 -->
     <ul class="mui-table-view mui-grid-view mui-grid-9">
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-        <router-link to="/search/newslist">
+        <router-link to="/home/newslist">
           <img src="../../assets/menu1.png" alt="">
           <div class="mui-media-body">测评资讯</div>
         </router-link>
@@ -17,7 +17,7 @@
         </router-link>
       </li>
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-        <router-link to="/home/goodslist">
+        <router-link to="/goods/goodslist">
           <img src="../../assets/menu3.png" alt="">
           <div class="mui-media-body">商品购买</div>
         </router-link>

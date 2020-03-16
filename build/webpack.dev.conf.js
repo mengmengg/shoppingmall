@@ -21,7 +21,7 @@ const PORT = process.env.PORT && Number(process.env.PORT)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
+    rules: utils.styleLoaders({sourceMap: config.dev.cssSourceMap, usePostCSS: true})
   },
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
@@ -62,15 +62,15 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           })
         })
         ,
-        app.get("/api/getnewslnfo/:id", (req, res,next) => {
-          var id=req.params.id;
-          var newslist=appData.news;
+        app.get("/api/getnewslnfo/:id", (req, res, next) => {
+          var id = req.params.id;
+          var newslist = appData.news;
 
-          for (let i = 0; i <newslist.length ; i++) {
-            if (id==newslist[i].nid){
+          for (let i = 0; i < newslist.length; i++) {
+            if (id == newslist[i].nid) {
               res.json({
 
-                data:newslist[i]
+                data: newslist[i]
 
               });
               break
@@ -79,57 +79,132 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           }
 
         })
-      ,
-      app.get("/api/getcomments/:id/:pageindex", (req, res) => {
-        var comment=appData.comment;
-        res.json({
-
-          data:appData.comment
-
-        });
-      }) ,
-        app.get("/api/livebro", (req, res) => {
-          var livero=appData.livero;
+        ,
+        app.get("/api/getcomments/:id/:pageindex", (req, res) => {
+          var comment = appData.comment;
           res.json({
 
-            data:appData.livero
+            data: appData.comment
+
+          });
+        }) ,
+        app.get("/api/livebro", (req, res) => {
+          var livero = appData.livero;
+          res.json({
+
+            data: appData.livero
 
           });
         })
-,
-    app.get("/api/commodityList", (req, res) => {
-      res.json({
+        ,
+        app.get("/api/commodityList", (req, res) => {
+          res.json({
 
-        data:appData.commodity
+            data: appData.commodity
 
-      });
-    })
+          });
+        })
+        ,
+        /*classification 类别*/
+        app.get("/api/classification", (req, res) => {
+          res.json({
 
-  }
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
-    new webpack.NoEmitOnErrorsPlugin(),
-    // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-      inject: true
-    }),
-    // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: config.dev.assetsSubDirectory,
-        ignore: ['.*']
-      }
-    ])
-  ]
-})
+            data: appData.classification
+
+          });
+        }),
+      /*classification 根据类别查询商品*/
+      app.get("/api/commodityListById/:id", (req, res, next) => {
+
+        var app=new Array();
+       var id=  req.params.id;
+        for (let i = 0; i <appData.commodity.length ; i++) {
+          if (parseInt(appData.commodity[i].fid)===parseInt(id)){
+            app.push(appData.commodity[i])
+          }
+        }
+
+        res.json({
+
+          data: app
+
+        });
+      }),
+      /*getthumimages  */
+        app.get("/api/getthumimages/:id", (req, res, next) => {
+
+          var app=new Array();
+          var id=  req.params.id;
+          for (let i = 0; i <appData.getthumimages.length ; i++) {
+            if (parseInt(appData.getthumimages[i].sid)===parseInt(id)){
+              app.push(appData.getthumimages[i])
+            }
+          }
+          res.json({
+
+            data: app
+
+          });
+        })
+    ,
+      /*商品信息*/
+      app.get("/api/goods/getinfo/:id", (req, res, next) => {
+        var app=new Array();
+        var id=  req.params.id;
+        for (let i = 0; i <appData.commodity.length ; i++) {
+          if (parseInt(appData.commodity[i].id)===parseInt(id)){
+            app.push(appData.commodity[i])
+          return   res.json({
+
+              data: app
+
+            });
+
+          }
+        }
+
+      }),
+        /*/api/goods/getshopcarlist/ 购物车*/
+        app.get("/api/goods/getshopcarlist/:id", (req, res, next) => {
+
+          var app=new Array();
+          var id=  req.params.id;
+          for (let i = 0; i <appData.shopcarlist.length ; i++) {
+            if (parseInt(appData.shopcarlist[i].uid)===parseInt(id)){
+              app.push(appData.shopcarlist[i])
+            }
+          }
+          res.json({
+
+            data: app
+
+          });
+        })
+    }
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env': require('../config/dev.env')
+      }),
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
+      new webpack.NoEmitOnErrorsPlugin(),
+      // https://github.com/ampedandwired/html-webpack-plugin
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: 'index.html',
+        inject: true
+      }),
+      // copy custom static assets
+      new CopyWebpackPlugin([
+        {
+          from: path.resolve(__dirname, '../static'),
+          to: config.dev.assetsSubDirectory,
+          ignore: ['.*']
+        }
+      ])
+    ]
+  })
 
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port
@@ -148,8 +223,8 @@ module.exports = new Promise((resolve, reject) => {
           messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
         },
         onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
+          ? utils.createNotifierCallback()
+          : undefined
       }))
 
       resolve(devWebpackConfig)

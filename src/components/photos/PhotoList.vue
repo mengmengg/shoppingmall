@@ -24,7 +24,7 @@
         <div
              class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
           <div class="mui-scroll">
-            <a :class="['mui-control-item', item.id == 0? 'mui-active' : '']" v-for="item in cates" :key="item.id"
+            <a :class="['mui-control-item', item.id == 0? 'mui-active' : '']" v-for="item in classification" :key="item.id"
                @tap="getPhotoListByCatesId(item.id)">
               {{ item.title }}
             </a>
@@ -102,50 +102,12 @@
 
     // 1. 导入 mui 的js文件
     import mui from "../../mui/js/mui";
+    import {Toast} from "mint-ui";
     /**/
     export default {
         data() {
             return {
-                cates: [{
-                    id: 1,
-                    title: "日用百货"
-                },
-                    {
-                        id: 2,
-                        title: "家居家装"
-                    },
-                    {
-                        id: 3,
-                        title: "美容个护"
-                    },
-                    {
-                        id: 4,
-                        title: "平价美食"
-                    },
-                    {
-                        id: 5,
-                        title: "母婴儿童"
-                    },
-                    {
-                        id: 6,
-                        title: "数码家电"
-                    },
-                    {
-                        id: 7,
-                        title: "服装内衣"
-                    },
-                    {
-                        id: 8,
-                        title: "日用百货"
-                    },
-                    {
-                        id: 9,
-                        title: "鞋包配饰"
-                    },
-                    {
-                        id: 10,
-                        title: "运动户外"
-                    }
+                classification: [
                 ],//所有分类数组
                 photoList: []//抢购商品列表
             }
@@ -161,8 +123,13 @@
         methods: {
             //获取商品类别，因为没连接数据库，直接就在里面写了，如果需要直接在里面增加请求方法就可以
             getAll(){
-                var cate={id:0,title:"全部类目"}
-                this.cates.splice(0,cate)
+                this.$http.get("/api/classification").then(result=>{
+                    if (result.status===200){
+                        return   this.classification = result.data.data;
+                    }else {
+                        Toast("获取失败。。。");
+                    }
+                })
 
             }
             ,

@@ -7,8 +7,8 @@
         <div id="sliderSegmentedControl"
              class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
           <div class="mui-scroll">
-            <a :class="['mui-control-item', item.id == 0? 'mui-active' : '']" v-for="item in cates" :key="item.id"
-               @tap="getcomListById(item.id)">
+            <a :class="['mui-control-item', item.id == 0? 'mui-active' : '']" v-for="item in classification" :key="item.id"
+               @click="getcomListById(item.id)">
               {{ item.title }}
             </a>
           </div>
@@ -31,7 +31,7 @@
         </div>
 
 
-        <mt-button type="danger" size="large" @click="getMore">加载更多</mt-button>
+        <mt-button type="danger" size="large" @click="getMore" >{{mag}}</mt-button>
       </div>
     </div>
   </div>
@@ -45,48 +45,9 @@
     export default {
         data() {
             return {
-                cates: [{
-                    id: 1,
-                    title: "日用百货"
-                },
-                    {
-                        id: 2,
-                        title: "家居家装"
-                    },
-                    {
-                        id: 3,
-                        title: "美容个护"
-                    },
-                    {
-                        id: 4,
-                        title: "平价美食"
-                    },
-                    {
-                        id: 5,
-                        title: "母婴儿童"
-                    },
-                    {
-                        id: 6,
-                        title: "数码家电"
-                    },
-                    {
-                        id: 7,
-                        title: "服装内衣"
-                    },
-                    {
-                        id: 8,
-                        title: "日用百货"
-                    },
-                    {
-                        id: 9,
-                        title: "鞋包配饰"
-                    },
-                    {
-                        id: 10,
-                        title: "运动户外"
-                    }
-                ],//所有分类数组
-                commodityList: []//抢购商品列表
+                classification:[],//所有分类数组
+                commodityList: [],//抢购商品列表
+                mag:"加载更多"
             }
         },
         created(){
@@ -101,8 +62,13 @@
         methods: {
             //获取商品类别，因为没连接数据库，直接就在里面写了，如果需要直接在里面增加请求方法就可以
             getAll(){
-                var cate={id:0,title:"全部类目"}
-                this.cates.unshift(cate)
+                this.$http.get("/api/classification").then(result=>{
+                    if (result.status===200){
+                        return   this.classification = result.data.data;
+                    }else {
+                        Toast("获取失败。。。");
+                    }
+                })
 
             }
             ,
@@ -117,10 +83,30 @@
                 });
                 },
             getcomListById(id) {
+                if (id!==0){
+                    this.$http.get("/api/commodityListById/"+id).then(result => {
+                        if (result.status === 200) {
+                            // 成功了
+                           this.commodityList = result.data.data;
+                           if (this.commodityList.length===0){
+                               this.mag="暂无信息"
+                           }
+
+                        } else {
+                            Toast("获取失败。。。");
+                        }
+                    });
+                }else {
+
+                    this.getComments()
+                }
+
+
 
 
             },
             goDetail(id) {
+                this.$router.push({ name: "goodsinfo", params: { id } });
             },
             getMore(){
                 Toast("暂无更多");
