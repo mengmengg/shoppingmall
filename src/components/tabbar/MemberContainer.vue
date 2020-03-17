@@ -1,12 +1,15 @@
 <!--会员-->
 <template>
   <div class="member">
-    <div class="mui-card-header mui-card-media" v-if="name">
-      <img src="../../assets/zhib.jpg"/>
-      <div class="mui-media-body">
-        <h4>欢迎您:{{name}}会员大人</h4>
+    <div class="member_top">
+      <div class="mui-card-header mui-card-media" v-if="name">
+        <img src="../../assets/zhib.jpg"/>
+        <div class="mui-media-body">
+          <h4>欢迎您:{{name}}会员大人</h4>
+        </div>
       </div>
     </div>
+
     <div id="slider" class="mui-slider">
       <div id="sliderSegmentedControl"
            class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
@@ -29,6 +32,19 @@
       </div>
     </div>
     <hr>
+    <div class="member_con" v-for="item in orderList" :key="item.id">
+      <div class="mui-card-header mui-card-media" @click="goDetail(item.sid)">
+        <img :src="item.thumb_path" />
+        <div class="mui-media-body">
+          {{item.title}}
+          <p class="red">总价:{{item.sell_price}}</p>
+          <button @click="goDetail(item.sid)">再次购买</button>
+
+        </div>
+      </div>
+    </div>
+
+    <h4 style="text-align: center">{{mag}}</h4>
   </div>
 </template>
 
@@ -38,10 +54,22 @@
 
     export default {
         data() {
-            return {name: ""}
+            return {name: "",orderList:[],mag:""}
         },
         created() {
-            this.getName()
+            this.getName(),
+                this.$http.get("/api/order/orderList").then(result => {
+                    if (result.status === 200) {
+                        // 成功了
+                        this.orderList = result.data.data;
+                        if (this.orderList.length === 0) {
+                            this.mag = "暂无信息"
+                        }
+
+                    } else {
+                        Toast("获取失败。。。");
+                    }
+                })
         }, methods: {
             getName() {
                 this.name = localStorage.getItem("name");
@@ -51,7 +79,41 @@
                 }
 
             },memberclick(id){
+                if (id===0){
+                    this.$http.get("/api/order/orderList").then(result => {
+                        if (result.status === 200) {
+                            // 成功了
+                            this.orderList = result.data.data;
+                            if (this.orderList.length === 0) {
+                                this.mag = "暂无信息"
+                            }else {
+                                this.mag = ""
+                            }
 
+                        } else {
+                            Toast("获取失败。。。");
+                        }
+                    })
+
+                }else {
+                    this.$http.get("/api/order/orderList/" + id).then(result => {
+                        if (result.status === 200) {
+                            // 成功了
+                            this.orderList = result.data.data;
+                            if (this.orderList.length === 0) {
+                                this.mag = "暂无信息"
+                            }else {
+                                this.mag = ""
+                            }s
+                        } else {
+                            Toast("获取失败。。。");
+                        }
+                    })
+                }
+
+            },
+            goDetail(id) {
+                this.$router.push({ name: "goodsinfo", params: { id } });
             }
         }
     }
@@ -61,7 +123,7 @@
   .member {
     touch-action: pan-y;
   }
-  .member .mui-card-header img {
+  .member_top .mui-card-header img {
     border-radius: 20%;
     width: 100px;
     height: 100px;
@@ -82,5 +144,12 @@
     height: 40px;
     white-space: nowrap;
   }
-
+  .member_con img{
+    width: 80px;
+    height: 80px;
+  }
+.red{
+  color: red;
+  padding: 5px;
+}
 </style>

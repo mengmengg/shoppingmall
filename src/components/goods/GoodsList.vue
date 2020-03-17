@@ -1,4 +1,4 @@
-<!--购物车-->
+<!--购物-->
 <template>
   <div class="shopCar">
     <div class="photoList">

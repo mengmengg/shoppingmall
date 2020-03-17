@@ -179,6 +179,31 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             data: app
 
           });
+        }),
+        /*订单信息 orderList*/
+        app.get("/api/order/orderList/:id", (req, res, next) => {
+
+          var app=new Array();
+          var id=  req.params.id;
+          for (let i = 0; i <appData.orderList.length ; i++) {
+            if (parseInt(appData.orderList[i].id)===parseInt(id)){
+              app.push(appData.orderList[i])
+            }
+          }
+          res.json({
+
+            data: app
+
+          });
+        }),
+        /*订单信息 orderList*/
+        app.get("/api/order/orderList", (req, res, next) => {
+
+          res.json({
+
+            data: appData.orderList
+
+          });
         })
     }
     },
